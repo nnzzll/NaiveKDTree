@@ -191,9 +191,14 @@ void KDTree<T>::dfs(KDNode *node, T pt)
 		queueNode.push(node);
 		visited.insert(node->index);
 		if (pt[node->axis] <= m_data[node->index][node->axis] && node->left)
-			return dfs(node->left, pt);
+			dfs(node->left, pt);
 		else if (pt[node->axis] >= m_data[node->index][node->axis] && node->right)
-			return dfs(node->right, pt);
+			dfs(node->right, pt);
+		else if ((node->left == nullptr) ^ (node->right == nullptr))
+		{
+			dfs(node->left, pt);
+			dfs(node->right, pt);
+		}
 	}
 }
 
