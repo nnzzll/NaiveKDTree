@@ -147,6 +147,7 @@ int KDTree<T>::chooseAxis(std::vector<T> &data)
 template <class T>
 int KDTree<T>::findNearestPoint(T pt)
 {
+	visited.clear();
 	while (!queueNode.empty())
 		queueNode.pop();
 	double min_dist = DBL_MAX;
@@ -189,7 +190,7 @@ void KDTree<T>::dfs(KDNode *node, T pt)
 			return;
 		queueNode.push(node);
 		visited.insert(node->index);
-		if (pt[node->axis] < m_data[node->index][node->axis] && node->left)
+		if (pt[node->axis] <= m_data[node->index][node->axis] && node->left)
 			return dfs(node->left, pt);
 		else if (pt[node->axis] >= m_data[node->index][node->axis] && node->right)
 			return dfs(node->right, pt);
